@@ -5,7 +5,6 @@ fun main() {
     // Configuração da API key
     val apiKey = "AIzaSyAfCSIH59x2jjSdgUPGWlIbHbczXP_dWb4"
     GenerativeAI.configure(apiKey)
-
     // Listando modelos e verificando o suporte ao método 'generateContent'
     val models = GenerativeAI.listModels()
     for (model in models) {
@@ -13,13 +12,10 @@ fun main() {
             println(model.name)
         }
     }
-
     // Criando um modelo específico
     val model = GenerativeModel("gemini-pro")
-
     // Gerando conteúdo a partir de um prompt
     val response = model.generateContent("Qual o código hex da cor azul")
-
     // Imprimindo o resultado
     println(response.text)
 }
