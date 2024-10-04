@@ -11,9 +11,6 @@ language = languages[0]
 
 colorTemperature = "cold, hot, neutral or earthy"
 
-#hex = "#FF0000"
-
-
 def search_color(hex):
     jsonToFill = {
     "Color": {
@@ -33,6 +30,8 @@ def search_color(hex):
     prompt = ("Complete this json:" + json_string + " \n considering the language: " + language + "\n, the hex code: " + hex + " \n and colorimeter: " + colorTemperature)
     #print(prompt)
     response = model.generate_content(prompt)
-    print(response.text)
+    responseFormated = response.text.replace("json", "").replace("```", "")
+
+    print(responseFormated)
     
 search_color("#30D5C8")
