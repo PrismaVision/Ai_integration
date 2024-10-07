@@ -11,7 +11,7 @@ language = languages[0]
 
 colorTemperature = "cold, hot, neutral or earthy"
 
-def search_color(hex):
+def search_color(hex) -> str:
     jsonToFill = {
     "Color": {
         "id": None,
