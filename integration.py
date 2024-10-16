@@ -1,63 +1,35 @@
-from http.client import responses
+import random
 import google.generativeai as genai
-import json
-
-genai.configure(api_key="")
-
+genai.configure(api_key="AIzaSyBAocn-QIdMLH5baVfbuWtvwvXIk_jG8rE")
 model = genai.GenerativeModel('gemini-1.5-flash')
+#Nome da cor
+#Código hexadecimal da cor
+#Código RGB correspondente a cor
+#Cor correspondente no sistema de cores RYB
+#Um exemplo de medição de cores de acordo com a cor
+#Uma breve descrição da cor
+#Duas cores que combinam com a cor
+#Termo de classificação da terminologia para a cor
 
-languages = ["en-us", "pt-br"]
 
-language = languages[0]
 
+languages = ["en-us", "pt-br","es-es","cmn"]
+language = languages[3]
 colorTemperature = "cold, hot, neutral or earthy"
 
+hex = f"#{random.randint(0x100000, 0xFFFFFF):06X}"
 
+def color_prompt(hex):
+    resposta = []
+    Prompt = (f"Complete this information translate to  the language:{language}: name,hexCode {hex},rgbCode ,RYB Color percent ,colorimeter,according to  {colorTemperature}choose one of these ,color Description,two Colors That Match Hex, colorTerminology and return it in a Json")
 
-def search_color(hex) -> str:
-    jsonToFill = {
-    "Color": {
-        "id": None,  
-        "name": None, #Nome da cor
-        "hexCode": hex, ##Código hexadecimal da cor
-        "rgbCode": None, # Código RGB correspondente a cor
-        "RYBColor": None, # Cor correspondente no sistema de cores RYB
-        "colorimeter": None, #Um exemplo de medição de cores de acordo com a cor
-        "colorDescription": None, #Uma breve descrição da cor
-        "twoColorsThatMatchHex": None, #Duas cores que combinam com a cor
-        "colorTerminology": None #Termo de classificação da terminologia para a cor 
-        }
-    }
-    json_string = json.dumps(jsonToFill)
-    
-    Prompt2 = (f"Complete this information translate to  the language:{language}: id,name,hexCode {hex},rgbCode ,RYB Color percent ,colorimeter,color Temperature,colorDescription,two Colors ThatMatch Hex, colorTerminology and return it in a Json")
-    Prompt = (f"Complete this json: {json_string} \n considering the language: { language } \n, the hex code:  {hex}   \n , colorimeter:  {colorTemperature} and return all this prompt in format JSON ")
+    for i in range(3):
+        response = model.generate_content(Prompt)
+        resposta.append(response.text)
 
-#teste
-def generate_prompts(language, hex):
-    prompts = []
-    
-    for _ in range(3):
-        prompt = (f"Complete this information translate to the language {language}:  id, name, hexCode {hex}, rgbCode, RYB Color percent, colorimeter,color Temperature, colorDescription, two Colors That Match Hex, colorTerminology and return it in a Json")
-        prompts.append(prompt)
-        response = model.generate_content(prompt)
-       teste=  print(response.text)
-    return prompts
-#result = generate_prompts(language, hex)
+    print(resposta[2])
 
-
-for i, response in enumerate(responses, 1):
-    print(f"Prompt {i}:\n{responses.text}\n")
+color_prompt(hex)
 
 
 
-
-
-#teste/
-
-    #response = model.generate_content(Prompt2)
-   # responseFormated = response.text.replace("json", "").replace("```", "")
-
-   # print(language,response.text) 
-    
-search_color("#cd4309")
